@@ -1,0 +1,34 @@
+body {
+    margin: auto;
+    text-align: center;
+}
+.header-text {
+    font-size: 30px;
+}
+form {
+    padding-top: 50px;
+}
+input {
+    text-align: start;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+textarea {
+    white-space: normal;
+    text-align: center;
+    text-align-last: center;
+}
+
+.tcs-header {
+    background-color: #d60ce9;
+    color: white;
+}
+
+.tcs-btn-primary {
+    background-color: #d60ce9 !important;
+    color: white !important;
+}

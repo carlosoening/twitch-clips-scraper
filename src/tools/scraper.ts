@@ -3,7 +3,6 @@ import {
     DOMParser, 
     HTMLDocument 
 } from '../deps.ts';
-import puppeteer from "https://deno.land/x/puppeteer@9.0.0/mod.ts";
 
 const TWITCH_CLIPS_BASE_URL = "https://clips-media-assets2.twitch.tv/";
 const MAX_ATTEMPS = 3;
@@ -34,12 +33,8 @@ export async function getVideoUrlFromTwitchClip(url: string) {
 }
 
 async function loadHtmlDocument(url: string) {
-    const browser = await puppeteer.launch();
-    const page = await browser.newPage();
-    await page.goto(url);
-
-    const html = await page.content();
-    await browser.close();
+    const res = await fetch(url);
+    const html = await res.text();
     const document = new DOMParser().parseFromString(html, 'text/html');
     if (!document) {
         return null;

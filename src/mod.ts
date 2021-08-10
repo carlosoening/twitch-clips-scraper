@@ -1,4 +1,4 @@
-import { Application, log } from './deps.ts';
+import { Application, log, send } from './deps.ts';
 import api from './api/api.ts';
 
 const app = new Application();
@@ -44,6 +44,20 @@ app.use(async (ctx, next) => {
 
 app.use(api.routes());
 app.use(api.allowedMethods());
+
+app.use(async (ctx) => {
+    const filePath = ctx.request.url.pathname;
+    const fileWhitelist = [
+        "/index.html",
+        "/scripts/script.js",
+        "/styles/style.css",
+    ];
+    if (fileWhitelist.includes(filePath)) {
+        await send(ctx, filePath, { 
+            root: `${Deno.cwd()}/public`
+        });
+    }
+});
 
 if (import.meta.main) {
     log.info(`Starting server on port ${PORT}...`);

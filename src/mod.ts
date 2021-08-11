@@ -50,6 +50,7 @@ app.use(async (ctx) => {
     const fileWhitelist = [
         "/index.html",
         "/scripts/script.js",
+        "/scripts/bootstrap.bundle.min.js",
         "/styles/style.css",
         "/styles/bootstrap.min.css",
     ];

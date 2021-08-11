@@ -1,12 +1,24 @@
+const REGEX_URL = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/gm;
+const TWITCH_DOMAIN = 'twitch.tv';
+
 const url = document.getElementById("urlInput");
 const botaoGerar = document.getElementById("gerar");
 
 function getVideoFromUrl(event) {
     event.preventDefault();
     botaoGerar.disabled = true;
-    const urlText = url.value;
+    let urlText = url.value;
     if (!urlText) {
+        botaoGerar.disabled = false;
         return;
+    }
+    let validUrl = REGEX_URL.test(urlText) && urlText.includes(TWITCH_DOMAIN);
+    if (!validUrl) {
+        botaoGerar.disabled = false;
+        return;
+    }
+    if (!urlText.startsWith('https://')) {
+        urlText = `https://${urlText}`
     }
     fetch(`/twitch/scrap?url=${urlText}`)
     .then(res => res.text())

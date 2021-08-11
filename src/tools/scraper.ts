@@ -5,11 +5,11 @@ import {
 } from '../deps.ts';
 
 const TWITCH_CLIPS_BASE_URL = "https://clips-media-assets2.twitch.tv/";
-const MAX_ATTEMPS = 3;
+const MAX_ATTEMPTS = 3;
 
 export async function getVideoUrlFromTwitchClip(url: string) {
     try {
-        for (let attemp = 0; attemp < MAX_ATTEMPS; attemp++) {
+        for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
             const document = await loadHtmlDocument(url);
             if (!document) {
                 continue;

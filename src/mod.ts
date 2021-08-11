@@ -51,6 +51,7 @@ app.use(async (ctx) => {
         "/index.html",
         "/scripts/script.js",
         "/styles/style.css",
+        "/styles/bootstrap.min.css",
     ];
     if (fileWhitelist.includes(filePath)) {
         await send(ctx, filePath, { 

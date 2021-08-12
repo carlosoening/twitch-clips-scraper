@@ -1,4 +1,4 @@
-import { Application, log, send } from './deps.ts';
+import { Application, log, send, isHttpError, Status } from './deps.ts';
 import api from './api/api.ts';
 
 const app = new Application();
@@ -24,8 +24,11 @@ app.use(async (ctx, next) => {
     try {
         await next();
     } catch (err) {
-        ctx.response.body = "Internal server error";
-        ctx.throw(err);
+        if (isHttpError(err)) {
+            ctx.throw((Number(err.status)), JSON.stringify(err));
+            return;
+        }
+        ctx.throw(Status.InternalServerError, JSON.stringify({ message: "Internal server error" }));
     }
 });
 

@@ -1,4 +1,4 @@
-import { Router } from '../deps.ts';
+import { Router, Status } from '../deps.ts';
 import { getVideoUrlFromTwitchClip } from '../tools/scraper.ts';
 
 const router = new Router();
@@ -12,13 +12,11 @@ router.get("/twitch/scrap", async (ctx) => {
     if (url) {
         const videoUrl = await getVideoUrlFromTwitchClip(url);
         if (!videoUrl) {
-            ctx.response.body = "It was not possible to get the clip.";
-            ctx.response.status = 404;
+            ctx.throw(Status.NotFound, "It was not possible to get the clip")
         }
         ctx.response.body = videoUrl;
     } else {
-        ctx.response.body = "No valid URL";
-        ctx.response.status = 404;
+        ctx.throw(Status.NotFound, "No valid URL")
     }
 });
 

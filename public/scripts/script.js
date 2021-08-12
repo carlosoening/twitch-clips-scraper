@@ -1,4 +1,4 @@
-const REGEX_URL = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/gm;
+const REGEX_URL = /^(?:https:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/gm;
 const TWITCH_DOMAIN = 'twitch.tv';
 
 const url = document.getElementById("urlInput");
@@ -21,9 +21,14 @@ function getVideoFromUrl(event) {
         urlText = `https://${urlText}`
     }
     fetch(`/twitch/scrap?url=${urlText}`)
-    .then(res => res.text())
-    .then(clipUrl => {
+    .then(handleError)
+    .then(async res => {
+        const clipUrl = await res.text();
         generateDownload(clipUrl);
+        botaoGerar.disabled = false;
+
+    }).catch((err) => {
+        console.log(err);
         botaoGerar.disabled = false;
     });
 }
@@ -41,4 +46,12 @@ function generateDownload(url) {
     document.body.removeChild(dwldLink);
 }
 
-botaoGerar.onclick = getVideoFromUrl;
+async function handleError(response) {
+    if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message);
+    }
+    return response;
+}
+
+document.getElementById("form").addEventListener("submit", getVideoFromUrl);

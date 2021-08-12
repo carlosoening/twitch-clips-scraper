@@ -7,6 +7,7 @@ export {
     Status, 
     Application,
     send,
+    isHttpError,
 } from 'https://deno.land/x/oak@v8.0.0/mod.ts';
 export { 
     DOMParser, 
